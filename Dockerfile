@@ -31,7 +31,7 @@ FROM nginx:latest
 WORKDIR /app
 
 # 从编译阶段的镜像中拷贝编译后的文件到运行镜像中
-COPY --from=builder /app/dist/* /usr/share/nginx/html
+COPY --from=builder /app/dist/ /usr/share/nginx/html/
 
 # 暴露容器的 8080 端口，用于外部访问
 EXPOSE 80
