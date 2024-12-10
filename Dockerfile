@@ -12,7 +12,11 @@ WORKDIR /app
 COPY . .
 
 # 下载项目的依赖
-RUN npm i -g pnpm && pnpm i
+RUN npm i -g pnpm
+
+RUN pnpm config set registry https://registry.npmmirror.com/
+
+RUN pnpm i
 
 # 编译项目，生成文件
 RUN pnpm run build
