@@ -12,6 +12,8 @@ WORKDIR /app
 COPY . .
 
 # 下载项目的依赖
+RUN npm config set registry https://registry.npmmirror.com/
+
 RUN npm i -g pnpm
 
 RUN pnpm config set registry https://registry.npmmirror.com/
