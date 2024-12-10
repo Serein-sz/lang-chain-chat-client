@@ -33,7 +33,7 @@ const SenderInput: React.FC<{ className?: string }> = (props) => {
     setLoading(true)
     const message = value
     setValue('')
-    await fetchEventSource('http://localhost:8000/chat/', {
+    await fetchEventSource(`${import.meta.env.VITE_API_BASE_URL}/chat/`, {
       method: 'POST',
       body: JSON.stringify({
         text: message
