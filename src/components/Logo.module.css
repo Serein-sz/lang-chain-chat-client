@@ -1,0 +1,42 @@
+@media (prefers-reduced-motion) {
+  path {
+    animation: none !important;
+    stroke-dasharray: unset !important;
+  }
+}
+
+@keyframes grow {
+  0% {
+    stroke-dashoffset: 1px;
+    stroke-dasharray: 0 100px;
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  40% {
+    stroke-dasharray: 100px 0;
+  }
+
+  /* Moving back */
+  85% {
+    stroke-dasharray: 100px 0;
+  }
+
+  95%,
+  to {
+    stroke-dasharray: 0 100px;
+  }
+}
+
+path {
+  stroke-dashoffset: 1px;
+  stroke-dasharray: 100px 0;
+  animation: grow 10s ease forwards infinite;
+  transform-origin: center;
+  /* stroke: white; */
+  /* filter: invert(100%); */
+  animation-delay: 0s;
+}
