@@ -45,11 +45,11 @@ const MessageBox: React.FC<{ className?: string }> = (props) => {
           messages.map((message, index) => (
             <Bubble
               key={index}
-              placement={message.role === 'user' ? 'end' : 'start'}
+              placement={message.role === 'human' ? 'end' : 'start'}
               content={message.content}
               messageRender={renderMarkdown}
               typing={{ step: 2, interval: 50 }}
-              avatar={{ icon: <UserOutlined />, style: message.role === 'user' ? barAvatar : fooAvatar }}
+              avatar={{ icon: <UserOutlined />, style: message.role === 'human' ? barAvatar : fooAvatar }}
               loading={message.loading}
             />
           ))

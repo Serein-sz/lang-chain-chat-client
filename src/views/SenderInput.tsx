@@ -10,8 +10,12 @@ const SenderInput: React.FC<{ className?: string }> = (props) => {
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { appendMessage, updateLastMessageContent } = useMessageStore(
-    useShallow((state) => ({ appendMessage: state.appendMessage, updateLastMessageContent: state.updateLastMessageContent })),
+  const { getMessages, appendMessage, updateLastMessageContent } = useMessageStore(
+    useShallow((state) => ({
+      getMessages: state.getMessages,
+      appendMessage: state.appendMessage,
+      updateLastMessageContent: state.updateLastMessageContent
+    })),
   );
 
 
@@ -20,7 +24,7 @@ const SenderInput: React.FC<{ className?: string }> = (props) => {
     ctrl = new AbortController();
     appendMessage({
       id: Date.now().toString(),
-      role: 'user',
+      role: 'human',
       content: value,
       loading: false
     })
@@ -31,21 +35,18 @@ const SenderInput: React.FC<{ className?: string }> = (props) => {
       loading: true
     })
     setLoading(true)
-    const message = value
     setValue('')
     await fetchEventSource(`${import.meta.env.VITE_API_BASE_URL}/chat/`, {
       method: 'POST',
       body: JSON.stringify({
-        text: message
+        model: "qwen2.5-coder:0.5b",
+        messages: getMessages()
       }),
       signal: ctrl.signal,
       onopen: async (res) => {
         console.log('res.ok: ', res.ok);
       },
       onmessage(msg) {
-        if (isEnglishString(msg.data)) {
-          msg.data = msg.data + ' '
-        }
         updateLastMessageContent(msg.data)
       },
     })
@@ -71,9 +72,6 @@ const SenderInput: React.FC<{ className?: string }> = (props) => {
   );
 };
 
-const regex = /^[a-zA-Z]+$/;
-function isEnglishString(str: string) {
-  return regex.test(str);
-}
+
 
 export default SenderInput;
