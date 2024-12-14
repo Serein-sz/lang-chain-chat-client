@@ -23,6 +23,7 @@ const barAvatar: React.CSSProperties = {
 };
 
 const MessageBox: React.FC<{ className?: string }> = (props) => {
+
   const { className } = props;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -35,9 +36,6 @@ const MessageBox: React.FC<{ className?: string }> = (props) => {
     containerRef.current?.scrollTo({ top: containerRef.current?.scrollHeight });
   }, [messages]);
 
-
-
-
   return (
     <div ref={containerRef} className={className}>
       <Space direction='vertical' size='middle' className='w-full h-full' >
@@ -48,7 +46,7 @@ const MessageBox: React.FC<{ className?: string }> = (props) => {
               placement={message.role === 'human' ? 'end' : 'start'}
               content={message.content}
               messageRender={renderMarkdown}
-              typing={{ step: 2, interval: 50 }}
+              typing={{ step: 2, interval: 10 }}
               avatar={{ icon: <UserOutlined />, style: message.role === 'human' ? barAvatar : fooAvatar }}
               loading={message.loading}
             />

@@ -10,10 +10,10 @@ const SenderInput: React.FC<{ className?: string }> = (props) => {
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { getMessages, appendMessage, updateLastMessageContent } = useMessageStore(
+  const { getMessages, saveMessage, updateLastMessageContent } = useMessageStore(
     useShallow((state) => ({
       getMessages: state.getMessages,
-      appendMessage: state.appendMessage,
+      saveMessage: state.saveMessage,
       updateLastMessageContent: state.updateLastMessageContent
     })),
   );
@@ -22,18 +22,7 @@ const SenderInput: React.FC<{ className?: string }> = (props) => {
   let ctrl = new AbortController();
   const sendMessage = async () => {
     ctrl = new AbortController();
-    appendMessage({
-      id: Date.now().toString(),
-      role: 'human',
-      content: value,
-      loading: false
-    })
-    appendMessage({
-      id: Date.now().toString(),
-      role: 'ai',
-      content: '',
-      loading: true
-    })
+    saveMessage(value);
     setLoading(true)
     setValue('')
     await fetchEventSource(`${import.meta.env.VITE_API_BASE_URL}/chat/`, {
@@ -43,9 +32,6 @@ const SenderInput: React.FC<{ className?: string }> = (props) => {
         messages: getMessages()
       }),
       signal: ctrl.signal,
-      onopen: async (res) => {
-        console.log('res.ok: ', res.ok);
-      },
       onmessage(msg) {
         updateLastMessageContent(msg.data)
       },
