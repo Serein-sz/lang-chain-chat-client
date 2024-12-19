@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { UserOutlined } from '@ant-design/icons';
 import { Bubble, type BubbleProps } from '@ant-design/x';
-import { useMessageStore } from '../store/store';
+import { useMessageStore } from '../store/messageStore';
 import { useShallow } from 'zustand/shallow';
 import markdownit from 'markdown-it';
 import { Space } from 'antd';

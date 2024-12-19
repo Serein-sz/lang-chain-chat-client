@@ -51,6 +51,7 @@ const useMessageStore = create<Store>()(persist(
   {
     name: 'message-storage', // 存储中的项目名称，必须是唯一的
     storage: createJSONStorage(() => sessionStorage), // 使用sessionStorage作为存储
-  }))
+  }
+))
 
 export { useMessageStore } 

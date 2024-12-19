@@ -2,13 +2,18 @@ import { Sender } from '@ant-design/x';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { Flex } from 'antd';
 import { useState } from 'react';
-import { useMessageStore } from '../store/store';
+import { useMessageStore } from '../store/messageStore';
 import { useShallow } from 'zustand/shallow';
+import { useModelStore } from '../store/modelStore';
 
 const SenderInput: React.FC<{ className?: string }> = (props) => {
   const { className } = props;
   const [value, setValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+
+  const { model } = useModelStore(useShallow((state) => ({
+    model: state.model,
+  })))
 
   const { getMessages, saveMessage, updateLastMessageContent } = useMessageStore(
     useShallow((state) => ({
@@ -28,7 +33,7 @@ const SenderInput: React.FC<{ className?: string }> = (props) => {
     await fetchEventSource(`${import.meta.env.VITE_API_BASE_URL}/chat/`, {
       method: 'POST',
       body: JSON.stringify({
-        model: "qwen2.5-coder:0.5b",
+        model,
         messages: getMessages()
       }),
       signal: ctrl.signal,
