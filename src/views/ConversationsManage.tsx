@@ -1,15 +1,14 @@
 import { DeleteOutlined, EditOutlined, StopOutlined } from '@ant-design/icons';
 import { Conversations } from '@ant-design/x';
 import type { ConversationsProps } from '@ant-design/x';
-import { App, type GetProp, theme } from 'antd';
+import { App, Button, type GetProp, theme } from 'antd';
 
-const items: GetProp<ConversationsProps, 'items'> = Array.from({ length: 1 }).map((_, index) => ({
+const items: GetProp<ConversationsProps, 'items'> = Array.from({ length: 0 }).map((_, index) => ({
   key: `item${index + 1}`,
-  label: `Conversation One`,
-  disabled: index === 3,
+  label: `Conversation ${index + 1}`,
 }));
 
-const ConversationsManage: React.FC<{className?: string}> = (props) => {
+const ConversationsManage: React.FC<{ className?: string }> = (props) => {
   const { className } = props;
   const { message } = App.useApp();
   const { token } = theme.useToken();
@@ -44,7 +43,19 @@ const ConversationsManage: React.FC<{className?: string}> = (props) => {
     },
   });
 
-  return <Conversations className={className} defaultActiveKey="item1" menu={menuConfig} items={items} style={style} />;
+
+  return (
+    <div className={className}>
+      <div className="px-3">
+        <Button color="primary" variant="outlined" block >
+          Add Conversation
+        </Button>
+      </div>
+      <div className='h-[calc(100%-42px)] mt-2 overflow-y-auto'>
+        <Conversations className='pt-1' defaultActiveKey="item1" menu={menuConfig} items={items} style={style} />
+      </div>
+    </div>
+  )
 };
 
 export default ConversationsManage;

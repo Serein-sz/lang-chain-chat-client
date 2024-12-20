@@ -29,7 +29,7 @@ const Container: React.FC = () => {
           style={{ background: colorBgContainer, borderRadius: borderRadiusLG }}
         >
           <Sider style={{ background: colorBgContainer }} width={200}>
-            <ConversationsManage className='w-full' />
+            <ConversationsManage className='w-full h-full' />
           </Sider>
           <Divider type='vertical' className='h-full' />
           <Content className='relative px-6'>
